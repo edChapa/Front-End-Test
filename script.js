@@ -3,7 +3,6 @@ $.ajax({
     dataType: "json"
 })
 .done(function( data ) {
-    console.log(data[0]);
       loadTable(data);
 });
 
@@ -30,10 +29,9 @@ function loadTable(data) {
         columns[4].textContent = val.population + " people";
         columns[5].appendChild(flag);
 
-        columns.forEach(function(col, i, array) {
+        columns.forEach(function(col, i) {
             tr.appendChild(col);
         });
-
 
         tr.onclick = function() {
             onRowClick(val.name.common);
@@ -44,35 +42,34 @@ function loadTable(data) {
         }
 
         tc.appendChild(tr);
-
     }); 
 }
 
 function languageOnClick(val) {
     var languages = "";
-        for(var l in val.languages) {
-            languages += "<li>" + val.languages[l] + "</li>" + "<br>";
-        }
 
-        if (languages)
-            bootbox.alert({
-                title: "Languages",
-                message: languages
-            });
-        else
+    for(var l in val.languages) {
+        languages += "<li>" + val.languages[l] + "</li>" + "<br>";
+    }
+
+    if (languages)
         bootbox.alert({
             title: "Languages",
-            message: "No languages found"
+            message: languages
         });
+    else
+    bootbox.alert({
+        title: "Languages",
+        message: "No languages found"
+    });
 
-        //Cancel event propagation
-        if (!e) var e = window.event;
-        e.cancelBubble = true;
-        if (e.stopPropagation) e.stopPropagation();
+    //Cancel event propagation
+    if (!e) var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
 }
 
 function onRowClick(country) {
-
     $.ajax({
         url: "https://en.wikipedia.org/api/rest_v1/page/summary/" + country,
         dataType: "json"
@@ -82,7 +79,5 @@ function onRowClick(country) {
             title: country,
             message: data.extract_html
         });
-    });
-
-    
+    }); 
 }
