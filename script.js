@@ -16,17 +16,17 @@ function loadTable(data) {
     $.each(data, function(i, val) {
         var tr = document.createElement("tr");
         var columns = [document.createElement("td"), document.createElement("td"), document.createElement("td"), document.createElement("td"), document.createElement("td"), document.createElement("td")];
+        var languages = document.createElement("a");
         var flag = document.createElement("img");
+        
+        languages.text = "View Langages";
+        languages.href = "#";
         flag.src = val.flags.png;
-        var languages = ""
-        for(var l in val.languages) {
-            languages += val.languages[l] + "<br>";
-        }
 
         columns[0].textContent = val.name.official;
         columns[1].textContent = val.capital;
         columns[2].textContent = val.region;
-        columns[3].innerHTML = languages;
+        columns[3].appendChild(languages);
         columns[4].textContent = val.population + " people";
         columns[5].appendChild(flag);
 
@@ -39,9 +39,36 @@ function loadTable(data) {
             onRowClick(val.name.common);
         };
 
+        languages.onclick = function() {
+            languageOnClick(val);
+        }
+
         tc.appendChild(tr);
 
     }); 
+}
+
+function languageOnClick(val) {
+    var languages = "";
+        for(var l in val.languages) {
+            languages += "<li>" + val.languages[l] + "</li>" + "<br>";
+        }
+
+        if (languages)
+            bootbox.alert({
+                title: "Languages",
+                message: languages
+            });
+        else
+        bootbox.alert({
+            title: "Languages",
+            message: "No languages found"
+        });
+
+        //Cancel event propagation
+        if (!e) var e = window.event;
+        e.cancelBubble = true;
+        if (e.stopPropagation) e.stopPropagation();
 }
 
 function onRowClick(country) {
