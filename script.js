@@ -41,21 +41,6 @@ function loadTable(data) {
 
         tc.appendChild(tr);
 
-        let options = {
-            numberPerPage:10,
-            constNumberPerPage:10,
-            numberOfPages:0,
-            goBar:false,
-            pageCounter:true,
-            hasPagination:true,
-        };
-        
-        let filterOptions = {
-            el:'#searchBox'
-        };
-
-        paginate.init('#table-contents',options,filterOptions);
-
     }); 
 }
 
